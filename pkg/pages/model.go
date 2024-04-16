@@ -33,6 +33,7 @@ type Model struct {
 	theme    Theme
 	cart     CartInfo
 	width    int
+	height   int
 }
 
 func NewModel() *Model {
@@ -43,7 +44,6 @@ func NewModel() *Model {
 	return &Model{
 		renderer:    renderer,
 		currentPage: 0,
-		width:       69,
 		theme:       GetTheme(renderer),
 		cart: CartInfo{
 			totalItems: 4,
@@ -71,12 +71,15 @@ func (m Model) Init() tea.Cmd {
 	return nil
 }
 
-func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg := msg.(type) {
+func (m Model) Update(raw tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg := raw.(type) {
 	case tea.WindowSizeMsg:
+		m.width = msg.Width
+		m.height = msg.Height
+		return m, nil
 	case tea.KeyMsg:
 		switch msg.String() {
-		case "q":
+		case "q", "ctrl+c":
 			return m, tea.Quit
 		case "tab":
 			m.currentPage = (m.currentPage + 1) % len(m.pages)
