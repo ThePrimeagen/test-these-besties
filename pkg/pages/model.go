@@ -107,16 +107,16 @@ func (m Model) Update(raw tea.Msg) (tea.Model, tea.Cmd) {
 func (m Model) View() string {
 	page := m.pages[m.currentPage]
 
-	titleStyle := m.renderer.NewStyle().Padding(0, 2)
-	activeTitleStyle := m.renderer.NewStyle().
-		Foreground(lipgloss.Color("#99cc99")).Padding(0, 2)
+	theme := GetTheme(m.renderer)
 
 	titles := []string{}
 	for idx, page := range m.pages {
 		if idx == m.currentPage {
-			titles = append(titles, activeTitleStyle.Render(page.Title()))
+			titles = append(titles, theme.ActivePage().Render(
+				fmt.Sprintf("* %s", page.Title())),
+			)
 		} else {
-			titles = append(titles, titleStyle.Render(page.Title()))
+			titles = append(titles, theme.Page().Render(page.Title()))
 		}
 	}
 
@@ -125,3 +125,5 @@ func (m Model) View() string {
 
 	return fmt.Sprintf("%s\n%s", headers, pageStyle.Render(page.Render(&m)))
 }
+
+// func (m *Model) SetProductCount

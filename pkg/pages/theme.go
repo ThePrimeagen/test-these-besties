@@ -11,6 +11,9 @@ type Theme interface {
 	ActiveDescForeground() lipgloss.Style
 	ActiveTitleForeground() lipgloss.Style
 	ActiveNormalForeground() lipgloss.Style
+
+	Page() lipgloss.Style
+	ActivePage() lipgloss.Style
 }
 
 type BasicTheme struct {
@@ -18,10 +21,12 @@ type BasicTheme struct {
 	desc         lipgloss.Style
 	title        lipgloss.Style
 	normal       lipgloss.Style
+	page         lipgloss.Style
 	activePrice  lipgloss.Style
 	activeDesc   lipgloss.Style
 	activeTitle  lipgloss.Style
 	activeNormal lipgloss.Style
+	activePage   lipgloss.Style
 }
 
 func (b *BasicTheme) PriceForeground() lipgloss.Style {
@@ -55,13 +60,29 @@ func (b *BasicTheme) ActiveTitleForeground() lipgloss.Style {
 func (b *BasicTheme) ActiveNormalForeground() lipgloss.Style {
 	return b.activeNormal
 }
+
+func (b *BasicTheme) Page() lipgloss.Style {
+	return b.page
+}
+
+func (b *BasicTheme) ActivePage() lipgloss.Style {
+	return b.activePage
+}
+
 func GetTheme(renderer *lipgloss.Renderer) Theme {
 	return &BasicTheme{
-		desc:         renderer.NewStyle(),
-		title:        renderer.NewStyle(),
-		normal:       renderer.NewStyle(),
+		desc:   renderer.NewStyle(),
+		title:  renderer.NewStyle(),
+		normal: renderer.NewStyle(),
+		page: renderer.NewStyle().
+			Foreground(lipgloss.Color("#4e545d")).
+			MarginLeft(4),
 		activeDesc:   renderer.NewStyle(),
 		activeTitle:  renderer.NewStyle(),
 		activeNormal: renderer.NewStyle(),
+		activePage: renderer.NewStyle().
+			Foreground(lipgloss.Color("#99cc99")).
+			MarginLeft(2).
+			Bold(true),
 	}
 }
