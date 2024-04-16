@@ -4,12 +4,12 @@ type CartPage struct {
 }
 
 func NewCartPage(m Model) CartPage {
-    return CartPage{
-    }
+    return CartPage{ }
 }
 
 func (c *CartPage) Title() string { return "Cart" }
 
 func (c *CartPage) Render(m *Model) string {
-	return ""
+    for _, w := range m.cart.widgets {
+    }
 }

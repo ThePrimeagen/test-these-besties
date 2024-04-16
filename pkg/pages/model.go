@@ -15,12 +15,23 @@ import (
 // 	Widget
 // )
 
+type WidgetOrderInfo struct {
+	count  int
+	widget shop.Widget
+}
+
+type CartInfo struct {
+	totalItems int
+	widgets    []WidgetOrderInfo
+}
+
 type Model struct {
 	currentPage int
 	pages       []Page
 
 	renderer *lipgloss.Renderer
 	theme    Theme
+	cart     CartInfo
 }
 
 func NewModel() *Model {
@@ -32,6 +43,14 @@ func NewModel() *Model {
 		renderer:    renderer,
 		currentPage: 0,
 		theme:       GetTheme(renderer),
+		cart:        CartInfo{
+            totalItems: 0,
+            widgets: []WidgetOrderInfo{
+                { count: 3, widget: shop.GetWidgets()[1] },
+                { count: 1, widget: shop.GetWidgets()[0] },
+            },
+        },
+
 		pages: []Page{
 			&CartPage{},
 			&WidgetPage{
