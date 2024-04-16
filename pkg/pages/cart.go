@@ -26,15 +26,17 @@ func (c *CartPage) Render(m *Model) string {
         Width(centeredWidth).
         Bold(true).
         Border(lipgloss.RoundedBorder(), false, false, true, false).
+        MarginBottom(1).
         Align(lipgloss.Right).
         Render(fmt.Sprintf("Items: %d", m.cart.totalItems))
 
     widgetOrders := make([]string, 0)
     widgetOrders = append(widgetOrders, totalWidgetCount)
 
-    for _, widgetInfo := range m.cart.widgets {
+    for i, widgetInfo := range m.cart.widgets {
 
         count := fmt.Sprintf("Count: %d", widgetInfo.count)
+        price := fmt.Sprintf("$%.2f", widgetInfo.widget.Price * float64(widgetInfo.count))
 
         widgetCount := m.theme.
             NormalForeground().
@@ -43,24 +45,36 @@ func (c *CartPage) Render(m *Model) string {
 
         title := m.theme.TitleForeground().
             Width(centeredWidth - len(count)).
-            AlignHorizontal(lipgloss.Left).
             Render(widgetInfo.widget.Name)
 
         description := m.theme.DescForeground().
             Width(centeredWidth).
-            MarginBottom(2).
             Render(widgetInfo.widget.Description)
 
-        price := m.theme.DescForeground().
+        priceTxt := m.theme.PriceForeground().
             Width(centeredWidth).
-            MarginBottom(2).
-            Render(widgetInfo.widget.Description)
+            AlignHorizontal(lipgloss.Right).
+            MarginBottom(1).
+            Render(price)
+
+        verticalLine := m.theme.NormalForeground().
+            Width(centeredWidth)
+
+        if i + 1 < len(m.cart.widgets) {
+            verticalLine = verticalLine.
+                MarginBottom(1).
+                Border(lipgloss.RoundedBorder(), false, false, true, false)
+        }
+
+        verticalLineTxt := verticalLine.Render()
 
         widgetOrders = append(widgetOrders,
             lipgloss.JoinVertical(
                 0,
                 lipgloss.JoinHorizontal(0, title, widgetCount),
-                lipgloss.JoinHorizontal(0, description, price),
+                lipgloss.JoinHorizontal(0, description),
+                priceTxt,
+                verticalLineTxt,
             ),
         )
     }
