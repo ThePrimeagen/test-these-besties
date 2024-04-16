@@ -51,11 +51,16 @@ func (c *CartPage) Render(m *Model) string {
             MarginBottom(2).
             Render(widgetInfo.widget.Description)
 
+        price := m.theme.DescForeground().
+            Width(centeredWidth).
+            MarginBottom(2).
+            Render(widgetInfo.widget.Description)
+
         widgetOrders = append(widgetOrders,
             lipgloss.JoinVertical(
                 0,
                 lipgloss.JoinHorizontal(0, title, widgetCount),
-                description,
+                lipgloss.JoinHorizontal(0, description, price),
             ),
         )
     }
