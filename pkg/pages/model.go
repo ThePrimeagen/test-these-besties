@@ -65,6 +65,7 @@ func NewModel() *Model {
 type Page interface {
 	Title() string
 	Render(m *Model) string
+	// Update(m *Model, msg tea.Msg) string
 }
 
 func (m Model) Init() tea.Cmd {
@@ -72,6 +73,21 @@ func (m Model) Init() tea.Cmd {
 }
 
 func (m Model) Update(raw tea.Msg) (tea.Model, tea.Cmd) {
+	// Not sure this is great... but it's kind of nice to all be in the same place
+	page := m.pages[m.currentPage]
+	switch page := page.(type) {
+	case *WidgetPage:
+		_ = page
+
+		switch msg := raw.(type) {
+		case tea.KeyMsg:
+			switch msg.String() {
+			case "left":
+				// This would be where we can change the amount of this page
+			}
+		}
+	}
+
 	switch msg := raw.(type) {
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
@@ -91,8 +107,9 @@ func (m Model) Update(raw tea.Msg) (tea.Model, tea.Cmd) {
 func (m Model) View() string {
 	page := m.pages[m.currentPage]
 
-	titleStyle := m.renderer.NewStyle().Border(lipgloss.RoundedBorder()).Padding(0, 2).Margin(0, 1)
-	activeTitleStyle := m.renderer.NewStyle().Foreground(lipgloss.Color("#99cc99")).Border(lipgloss.RoundedBorder()).Padding(0, 2).Margin(0, 1)
+	titleStyle := m.renderer.NewStyle().Border(inactiveTabBorder).Padding(0, 2)
+	activeTitleStyle := m.renderer.NewStyle().
+		Foreground(lipgloss.Color("#99cc99")).Border(activeTabBorder).Padding(0, 2)
 
 	titles := []string{}
 	for idx, page := range m.pages {
@@ -104,7 +121,6 @@ func (m Model) View() string {
 	}
 
 	headers := lipgloss.JoinHorizontal(lipgloss.Left, titles...)
-
 	pageStyle := m.renderer.NewStyle().Padding(2)
 
 	return fmt.Sprintf("%s\n%s", headers, pageStyle.Render(page.Render(&m)))
