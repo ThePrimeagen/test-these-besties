@@ -44,7 +44,7 @@ func NewModel() *Model {
 		currentPage: 0,
 		theme:       GetTheme(renderer),
 		cart:        CartInfo{
-            totalItems: 0,
+            totalItems: 4,
             widgets: []WidgetOrderInfo{
                 { count: 3, widget: shop.GetWidgets()[1] },
                 { count: 1, widget: shop.GetWidgets()[0] },
