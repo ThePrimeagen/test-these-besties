@@ -8,6 +8,13 @@ import (
 	"test.terminal.shop/pkg/shop"
 )
 
+// type currentPage int
+//
+// const (
+// 	Cart currentPage = iota
+// 	Widget
+// )
+
 type Model struct {
 	currentPage int
 	pages       []Page
@@ -19,6 +26,7 @@ func NewModel() *Model {
 	widgets := shop.GetWidgets()
 
 	return &Model{
+		renderer:    lipgloss.DefaultRenderer(),
 		currentPage: 0,
 		pages: []Page{
 			&CartPage{},
@@ -30,6 +38,7 @@ func NewModel() *Model {
 }
 
 type Page interface {
+	Title() string
 	Render(m *Model) string
 }
 
@@ -53,5 +62,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m Model) View() string {
 	page := m.pages[m.currentPage]
-	return fmt.Sprintf("KEKW: %d\n%s", m.currentPage, page.Render(&m))
+
+	titleStyle := m.renderer.NewStyle().Border(lipgloss.BlockBorder())
+
+	return fmt.Sprintf("%s\n%s", titleStyle.Render(page.Title()), page.Render(&m))
 }
