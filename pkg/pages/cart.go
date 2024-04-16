@@ -16,49 +16,49 @@ func NewCartPage(m Model) CartPage {
 func (c *CartPage) Title() string { return "Cart" }
 
 func (c *CartPage) Render(m *Model) string {
+    centeredWidth := m.width - 20
+    widgetsContainer := m.renderer.NewStyle().
+        Width(centeredWidth).
+        Margin(0, 10, 0, 10)
+
     totalWidgetCount := m.theme.
         ActiveTitleForeground().
+        Width(centeredWidth).
         Bold(true).
-        PaddingBottom(1).
-        BorderBottom(true).
-        AlignHorizontal(lipgloss.Right).
-        Width(m.width - 20).
+        Border(lipgloss.RoundedBorder(), false, false, true, false).
+        Align(lipgloss.Right).
         Render(fmt.Sprintf("Items: %d", m.cart.totalItems))
-
-    widgetContainer := m.renderer.NewStyle().
-        Width(m.width - 20).
-        PaddingRight(10).
-        PaddingLeft(10)
 
     widgetOrders := make([]string, 0)
     widgetOrders = append(widgetOrders, totalWidgetCount)
 
     for _, widgetInfo := range m.cart.widgets {
+
+        count := fmt.Sprintf("Count: %d", widgetInfo.count)
+
         widgetCount := m.theme.
             NormalForeground().
             Bold(true).
-            AlignHorizontal(lipgloss.Right).
-            Render(fmt.Sprintf("Count: %d", m.cart.totalItems))
+            Render(count)
 
         title := m.theme.TitleForeground().
+            Width(centeredWidth - len(count)).
+            AlignHorizontal(lipgloss.Left).
             Render(widgetInfo.widget.Name)
 
-        desc := m.theme.DescForeground().
+        description := m.theme.DescForeground().
+            Width(centeredWidth).
+            MarginBottom(2).
             Render(widgetInfo.widget.Description)
 
-        m.renderer.NewStyle()
-
         widgetOrders = append(widgetOrders,
-            lipgloss.JoinHorizontal(
+            lipgloss.JoinVertical(
                 0,
-                lipgloss.JoinVertical(
-                    0,
-                    title,
-                    desc,
-                ),
-                widgetCount,
-            ))
+                lipgloss.JoinHorizontal(0, title, widgetCount),
+                description,
+            ),
+        )
     }
 
-    return widgetContainer.Render(lipgloss.JoinVertical(0, widgetOrders...))
+    return widgetsContainer.Render(widgetOrders...)
 }
