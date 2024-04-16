@@ -4,19 +4,27 @@ import (
 	"fmt"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
+	"test.terminal.shop/pkg/shop"
 )
 
 type Model struct {
 	currentPage int
 	pages       []Page
+
+	renderer *lipgloss.Renderer
 }
 
 func NewModel() *Model {
+	widgets := shop.GetWidgets()
+
 	return &Model{
 		currentPage: 0,
 		pages: []Page{
 			&CartPage{},
-			&WidgetPage{},
+			&WidgetPage{
+				widget: &widgets[0],
+			},
 		},
 	}
 }
