@@ -3,13 +3,16 @@ package pages
 import "github.com/charmbracelet/lipgloss"
 
 type Theme interface {
-	DescForeground() lipgloss.Color
-	DescBackground() lipgloss.Color
+	DescForeground() lipgloss.Style
+	DescBackground() lipgloss.Style
 
-	TitleForeground() lipgloss.Color
-	TitleBackground() lipgloss.Color
+	TitleForeground() lipgloss.Style
+	TitleBackground() lipgloss.Style
 
-    NormalForeground() lipgloss.Color
-    NormalBackground() lipgloss.Color
+    NormalForeground() lipgloss.Style
+    NormalBackground() lipgloss.Style
 }
 
+func GetTheme(m Model) Theme {
+    return nil
+}
