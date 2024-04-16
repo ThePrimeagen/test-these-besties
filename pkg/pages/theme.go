@@ -3,21 +3,29 @@ package pages
 import "github.com/charmbracelet/lipgloss"
 
 type Theme interface {
+	PriceForeground() lipgloss.Style
 	DescForeground() lipgloss.Style
 	TitleForeground() lipgloss.Style
 	NormalForeground() lipgloss.Style
+	ActivePriceForeground() lipgloss.Style
 	ActiveDescForeground() lipgloss.Style
 	ActiveTitleForeground() lipgloss.Style
 	ActiveNormalForeground() lipgloss.Style
 }
 
 type BasicTheme struct {
+	price        lipgloss.Style
 	desc         lipgloss.Style
 	title        lipgloss.Style
 	normal       lipgloss.Style
+	activePrice  lipgloss.Style
 	activeDesc   lipgloss.Style
 	activeTitle  lipgloss.Style
 	activeNormal lipgloss.Style
+}
+
+func (b *BasicTheme) PriceForeground() lipgloss.Style {
+	return b.activeDesc
 }
 
 func (b *BasicTheme) DescForeground() lipgloss.Style {
@@ -30,6 +38,10 @@ func (b *BasicTheme) TitleForeground() lipgloss.Style {
 
 func (b *BasicTheme) NormalForeground() lipgloss.Style {
 	return b.normal
+}
+
+func (b *BasicTheme) ActivePriceForeground() lipgloss.Style {
+	return b.activeDesc
 }
 
 func (b *BasicTheme) ActiveDescForeground() lipgloss.Style {

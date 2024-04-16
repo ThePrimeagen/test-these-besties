@@ -121,7 +121,7 @@ func (m Model) View() string {
 	}
 
 	headers := lipgloss.JoinHorizontal(lipgloss.Left, titles...)
-	pageStyle := m.renderer.NewStyle().Padding(2)
+	pageStyle := m.renderer.NewStyle()
 
 	return fmt.Sprintf("%s\n%s", headers, pageStyle.Render(page.Render(&m)))
 }
