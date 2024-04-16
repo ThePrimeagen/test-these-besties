@@ -32,6 +32,7 @@ type Model struct {
 	renderer *lipgloss.Renderer
 	theme    Theme
 	cart     CartInfo
+	width    int
 }
 
 func NewModel() *Model {
@@ -42,14 +43,15 @@ func NewModel() *Model {
 	return &Model{
 		renderer:    renderer,
 		currentPage: 0,
+		width:       69,
 		theme:       GetTheme(renderer),
-		cart:        CartInfo{
-            totalItems: 4,
-            widgets: []WidgetOrderInfo{
-                { count: 3, widget: shop.GetWidgets()[1] },
-                { count: 1, widget: shop.GetWidgets()[0] },
-            },
-        },
+		cart: CartInfo{
+			totalItems: 4,
+			widgets: []WidgetOrderInfo{
+				{count: 3, widget: shop.GetWidgets()[1]},
+				{count: 1, widget: shop.GetWidgets()[0]},
+			},
+		},
 
 		pages: []Page{
 			&CartPage{},
