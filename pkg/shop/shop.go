@@ -8,6 +8,7 @@ package shop
 // }
 
 type Widget struct {
+	Art string
 	Name string `json:"name"`
 	// Sku             string `json:"sku"`
 	Active bool `json:"active"`
@@ -47,6 +48,28 @@ type Widget struct {
 func GetWidgets() []Widget {
 	return []Widget{
 		{
+			Art: `
+                  ██████
+                ██      ██
+      ██████    ██      ██    ██████
+    ██      ████          ████      ██
+    ██                              ██
+    ██                              ██
+      ██                          ██
+      ██                          ██
+  ████            ██████            ████
+██              ██      ██              ██
+██              ██      ██              ██
+██              ██      ██              ██
+  ████            ██████            ████
+      ██                          ██
+      ██                          ██
+    ██                              ██
+    ██                              ██
+    ██      ████          ████      ██
+      ██████    ██      ██    ██████
+                ██      ██
+                  ██████`,
 			Name:        "Foo Widget",
 			Price:       5.0,
 			Active:      true,
