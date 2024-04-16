@@ -21,7 +21,14 @@ func (c *CartPage) Render(m *Model) string {
         Bold(true).
         PaddingBottom(1).
         BorderBottom(true).
+        AlignHorizontal(lipgloss.Right).
+        Width(m.width - 20).
         Render(fmt.Sprintf("Items: %d", m.cart.totalItems))
+
+    widgetContainer := m.renderer.NewStyle().
+        Width(m.width - 20).
+        PaddingRight(10).
+        PaddingLeft(10)
 
     widgetOrders := make([]string, 0)
     widgetOrders = append(widgetOrders, totalWidgetCount)
@@ -53,5 +60,5 @@ func (c *CartPage) Render(m *Model) string {
             ))
     }
 
-    return lipgloss.JoinVertical(0, widgetOrders...)
+    return widgetContainer.Render(lipgloss.JoinVertical(0, widgetOrders...))
 }
