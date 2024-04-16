@@ -15,7 +15,6 @@ func (w *WidgetPage) Title() string { return "Widget" }
 
 func (w *WidgetPage) Render(m *Model) string {
 	titleStyle := m.renderer.NewStyle().Bold(true).Foreground(lipgloss.Color("#b294bb"))
-	return fmt.Sprintf(`<headers go here...>
-%s
-WIDGET: %s`, titleStyle.Render(w.widget.Name), w.widget.Name)
+	return fmt.Sprintf(`%s
+WIDGET: %s`, titleStyle.Render(w.widget.Name), w.widget.Description)
 }

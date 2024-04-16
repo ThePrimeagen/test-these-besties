@@ -86,7 +86,19 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m Model) View() string {
 	page := m.pages[m.currentPage]
 
-	titleStyle := m.renderer.NewStyle().Border(lipgloss.BlockBorder())
+	titleStyle := m.renderer.NewStyle().Border(lipgloss.RoundedBorder()).PaddingLeft(2).PaddingRight(2)
+	activeTitleStyle := m.renderer.NewStyle().Foreground(lipgloss.Color("#66666")).Border(lipgloss.RoundedBorder()).PaddingLeft(2).PaddingRight(2)
 
-	return fmt.Sprintf("%s\n%s", titleStyle.Render(page.Title()), page.Render(&m))
+	titles := []string{}
+	for idx, page := range m.pages {
+		if idx == m.currentPage {
+			titles = append(titles, activeTitleStyle.Render(page.Title()))
+		} else {
+			titles = append(titles, titleStyle.Render(page.Title()))
+		}
+	}
+
+	headers := lipgloss.JoinHorizontal(lipgloss.Left, titles...)
+
+	return fmt.Sprintf("%s\n%s", headers, page.Render(&m))
 }
