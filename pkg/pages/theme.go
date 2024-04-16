@@ -43,13 +43,13 @@ func (b *BasicTheme) ActiveTitleForeground() lipgloss.Style {
 func (b *BasicTheme) ActiveNormalForeground() lipgloss.Style {
 	return b.activeNormal
 }
-func GetTheme(m Model) Theme {
+func GetTheme(renderer *lipgloss.Renderer) Theme {
 	return &BasicTheme{
-		desc:         m.renderer.NewStyle(),
-		title:        m.renderer.NewStyle(),
-		normal:       m.renderer.NewStyle(),
-		activeDesc:   m.renderer.NewStyle(),
-		activeTitle:  m.renderer.NewStyle(),
-		activeNormal: m.renderer.NewStyle(),
+		desc:         renderer.NewStyle(),
+		title:        renderer.NewStyle(),
+		normal:       renderer.NewStyle(),
+		activeDesc:   renderer.NewStyle(),
+		activeTitle:  renderer.NewStyle(),
+		activeNormal: renderer.NewStyle(),
 	}
 }

@@ -20,14 +20,18 @@ type Model struct {
 	pages       []Page
 
 	renderer *lipgloss.Renderer
+	theme    Theme
 }
 
 func NewModel() *Model {
 	widgets := shop.GetWidgets()
 
+	renderer := lipgloss.DefaultRenderer()
+
 	return &Model{
-		renderer:    lipgloss.DefaultRenderer(),
+		renderer:    renderer,
 		currentPage: 0,
+		theme:       GetTheme(renderer),
 		pages: []Page{
 			&CartPage{},
 			&WidgetPage{
