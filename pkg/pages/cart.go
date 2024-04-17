@@ -57,24 +57,12 @@ func (c *CartPage) Render(m *Model) string {
             MarginBottom(1).
             Render(price)
 
-        verticalLine := m.theme.NormalForeground().
-            Width(centeredWidth)
-
-        if i + 1 < len(m.cart.widgets) {
-            verticalLine = verticalLine.
-                MarginBottom(1).
-                Border(lipgloss.RoundedBorder(), false, false, true, false)
-        }
-
-        verticalLineTxt := verticalLine.Render()
-
         widgetOrders = append(widgetOrders,
             lipgloss.JoinVertical(
                 0,
                 lipgloss.JoinHorizontal(0, title, widgetCount),
                 lipgloss.JoinHorizontal(0, description),
                 priceTxt,
-                verticalLineTxt,
             ),
         )
     }
